@@ -34,7 +34,7 @@ public class AplicacaoConsole1 {
 			System.out.println("\n---------listagem geral de correntistas");
 			for (Correntista cor : Fachada.listarCorrentistas())
 				System.out.println(cor);
-			System.out.println("\n---------listagem geral de lan�amentos");
+			System.out.println("\n---------listagem geral de lançamentos");
 			for (Lancamento lan : Fachada.listarLancamentos())
 				System.out.println(lan);
 
@@ -51,6 +51,7 @@ public class AplicacaoConsole1 {
 			System.out.println("\nconta top=" + contatop);
 
 			// excluir a conta de joao
+			Fachada.transferir("111.111.001", "9999002", 900); // joao para maria
 			Fachada.apagarConta("111.111.001");
 
 			// criar uma chave aleatorio para conta de maria
@@ -62,7 +63,7 @@ public class AplicacaoConsole1 {
 			System.out.println("\n---------listagem geral de correntistas");
 			for (Correntista cor : Fachada.listarCorrentistas())
 				System.out.println(cor);
-			System.out.println("\n---------listagem geral de lan�amentos");
+			System.out.println("\n---------listagem geral de lançamentos");
 			for (Lancamento lan : Fachada.listarLancamentos())
 				System.out.println(lan);
 
@@ -77,38 +78,38 @@ public class AplicacaoConsole1 {
 	}
 
 	public static void testarExcecoes() {
-		System.out.println("\n-------TESTE EXCE��ES LAN�ADAS--------");
+		System.out.println("\n-------TESTE EXCEÇÕES LANÇADAS--------");
 		try {
 			Fachada.criarConta("2", "111.111.002", "9999002", "maria@ifpb", "maria");
-			System.out.println("*************1Nao lan�ou exce��o para: criar conta existente ");
+			System.out.println("*************1Nao lançou exceção para: criar conta existente ");
 		} catch (Exception e) {
 			System.out.println("1ok--->" + e.getMessage());
 		}
 
 		try {
 			Fachada.transferir("111.111.002", "111.111.002", 500);
-			System.out.println("*************2Nao lan�ou exce��o para: chave inexistente");
+			System.out.println("*************2Nao lançou exceção para: chave inexistente");
 		} catch (Exception e) {
 			System.out.println("2ok--->" + e.getMessage());
 		}
 
 		try {
 			Fachada.transferir("111.111.002", "9999002", 500);
-			System.out.println("*************3Nao lan�ou exce��o: conta destino igual a conta origem");
+			System.out.println("*************3Nao lançou exceção: conta destino igual a conta origem");
 		} catch (Exception e) {
 			System.out.println("3ok--->" + e.getMessage());
 		}
 
 		try {
 			Fachada.transferir("111.111.004", "ana@ifpb", 2000);
-			System.out.println("*************4Nao lan�ou exce��o: sem saldo");
+			System.out.println("*************4Nao lançou exceção: sem saldo");
 		} catch (Exception e) {
 			System.out.println("4ok--->" + e.getMessage());
 		}
 
 		try {
 			Fachada.apagarConta("111.111.004");
-			System.out.println("*************5Nao lan�ou exce��o: saldo deve ser zero");
+			System.out.println("*************5Nao lançou exceção: saldo deve ser zero");
 		} catch (Exception e) {
 			System.out.println("5ok--->" + e.getMessage());
 		}

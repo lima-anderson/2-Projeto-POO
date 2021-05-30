@@ -10,7 +10,6 @@ public class Lancamento {
 	private String numero;
 
 	public Lancamento(Double valor, String numero) {
-		super();
 		this.valor = valor;
 		this.numero = numero;
 	}

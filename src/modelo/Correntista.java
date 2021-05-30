@@ -7,7 +7,7 @@ public class Correntista {
 	private String email;
 	private Conta conta;
 
-	public Correntista(String cpf, String nome, String telefone, String email) {
+	public Correntista(String cpf, String telefone, String email, String nome) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.telefone = telefone;

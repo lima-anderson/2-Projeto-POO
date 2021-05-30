@@ -92,20 +92,23 @@ public class Fachada {
 
 		Conta contaOrigem = correntista.getConta();
 		Conta contaDestino = repositorio.localizarConta(chavePIKS);
+
 		if (contaDestino == null)
-			throw new Exception("conta destino invalida");
+			throw new Exception("conta destino invalida" + chavePIKS);
 
-		if (contaOrigem.getNumero() != contaDestino.getNumero()) {
-			contaOrigem.debitar(quantia);
-			Lancamento lancamentoOrigem = new Lancamento(-quantia, contaDestino.getNumero());
-			contaOrigem.adicionarLancamento(lancamentoOrigem);
-			repositorio.adicionar(lancamentoOrigem);
-
-			contaDestino.creditar(quantia);
-			Lancamento lancamentoDestino = new Lancamento(quantia, contaOrigem.getNumero());
-			contaDestino.adicionarLancamento(lancamentoDestino);
-			repositorio.adicionar(lancamentoDestino);
+		if (contaOrigem.getNumero().equals(contaDestino.getNumero())) {
+			throw new Exception("A conta destino deve ser diferente da conta origem");
 		}
+
+		contaOrigem.debitar(quantia);
+		Lancamento lancamentoOrigem = new Lancamento(-quantia, contaDestino.getNumero());
+		contaOrigem.adicionarLancamento(lancamentoOrigem);
+		repositorio.adicionar(lancamentoOrigem);
+
+		contaDestino.creditar(quantia);
+		Lancamento lancamentoDestino = new Lancamento(quantia, contaOrigem.getNumero());
+		contaDestino.adicionarLancamento(lancamentoDestino);
+		repositorio.adicionar(lancamentoDestino);
 
 	}
 
@@ -116,21 +119,22 @@ public class Fachada {
 
 		Conta conta = correntista.getConta();
 
-		if (conta.getSaldo() == 0) {
-			repositorio.remover(conta);
-			repositorio.remover(correntista);
+		if (conta.getSaldo() != 0) {
+			throw new Exception("Conta não pode ser excluída.");
+		}
 
-			ArrayList<Lancamento> lancamentos = conta.getLancamentos();
+		repositorio.remover(conta);
+		repositorio.remover(correntista);
 
-			for (int i = 0; i < lancamentos.size(); i++) {
-				repositorio.remover(lancamentos.get(i));
-			}
+		ArrayList<Lancamento> lancamentos = conta.getLancamentos();
 
+		for (int i = 0; i < lancamentos.size(); i++) {
+			repositorio.remover(lancamentos.get(i));
 		}
 
 	}
 
-	public static Conta obterContaTop() {
+	public static Conta obterContaTop() throws Exception {
 
 		ArrayList<Conta> contas = repositorio.getContas();
 
@@ -141,6 +145,10 @@ public class Fachada {
 				maior = conta.getLancamentos().size();
 				contaComMaisLancamentos = conta;
 			}
+		}
+		
+		if (contaComMaisLancamentos == null) {
+			throw new Exception("Não há lançamentos");
 		}
 		return contaComMaisLancamentos;
 	}

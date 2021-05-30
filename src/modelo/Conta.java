@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Conta {
 	private String numero;
-	private Double saldo;
+	private double saldo;
 	private String chavePiks;
 	private String tipoChavePiks;
 	private ArrayList<Lancamento> lancamentos = new ArrayList<>();
@@ -22,11 +22,11 @@ public class Conta {
 		this.numero = numero;
 	}
 
-	public Double getSaldo() {
+	public double getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(Double saldo) {
+	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
 
@@ -62,19 +62,20 @@ public class Conta {
 		lancamentos.add(lancamento);
 	}
 
-	public void creditar(Double quantia) {
+	public void creditar(double quantia) {
 		setSaldo(getSaldo() + quantia);
 	}
 
-	public boolean debitar(double valor) {
-		if ((this.saldo - valor) >= 0) {
-			this.saldo -= valor;
-			return true;
+	public void debitar(double valor) throws Exception {
+
+		if ((this.saldo - valor) < 0) {
+			throw new Exception("Saldo insuficiente");
 		}
-		return false;
+
+		this.saldo -= valor;
 	}
 
-	public void transferir(double valor, Conta destino) {
+	public void transferir(double valor, Conta destino) throws Exception {
 		this.debitar(valor);
 		destino.creditar(valor);
 	}

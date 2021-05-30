@@ -16,9 +16,8 @@ public class ContaEspecial extends Conta {
 		this.limite = limite;
 	}
 
-	public boolean debitar(double valor) {
+	public void debitar(double valor) {
 		this.setSaldo(getSaldo() - valor);
-		return true;
 	}
 
 }
